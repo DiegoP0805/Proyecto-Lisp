@@ -1,0 +1,7 @@
+(defun factor(n)
+(cond ((= n 1) 1)
+(t (* n (factor(- n 1))))
+)
+)
+
+(write(factor 9))
