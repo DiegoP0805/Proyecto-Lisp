@@ -3,5 +3,4 @@
 (t (* n (factor(- n 1))))
 )
 )
-
 (write(factor 9))

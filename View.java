@@ -45,6 +45,21 @@ public class View{
 
   }
 
+  public void funFound(String funcion) {
+		System.out.println("Se ha encontrado la funcion: "+funcion);
+	}
+	
+	public void insideFun(String actions) {
+		System.out.println("Dicha funcion contiene: "+actions);
+	}
+	
+	public void ingreso(String input) {
+		System.out.println("Se ha ingresado "+input);
+	}
+	public void proceso(String processed) {
+		System.out.println("Se ha modificado a "+processed);
+	}
+
   public void Error(){
     System.out.println("\nPrograma Lisp no valido. Revise su programa o intente con uno nuevo."); 
   }
