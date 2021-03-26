@@ -1,6 +1,7 @@
+package cosas2;
 import java.util.Arrays;
 
-class Main {
+public class Main {
 
   public static void main(String[] args) {
 
@@ -25,15 +26,14 @@ class Main {
         }else{
           vista.Operation(codigo);
 
-          //interpreterLisp interprete = new interpreterLisp();
-
-          //interprete.Result(str);
+          interpreterLisp interprete = new interpreterLisp(str);
+          interprete.runInterprete();
+          //interprete.Result(str,"");
 
           Calculator calc = new Calculator();
-          String[] a = {"(","/","10","(","*","10","5",")",")"};
+          String[] a = {"+","1","2","3"};
 
-          Double b = calc.Convertir(a);
-          System.out.println(b);
+          System.out.println(calc.calc(a));
         }
 
       }else{
