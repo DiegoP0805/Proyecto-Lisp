@@ -16,7 +16,7 @@ public class View{
         
       if(opt1 == 1){
         System.out.println("\nPor favor ingresar la direccion del archivo lisp..."); 
-        location = scanner.next();
+        location = "/Users/stefanoaragoni/Downloads/Proyecto-Lisp-Error-arreglado-con-darks/factorial.txt";//scanner.next();
         testBool = false;
       }else if(opt1 == 2){
         testBool = false;
@@ -42,7 +42,7 @@ public class View{
     for(int i = 0; i < codigo.length; i++){
       System.out.println(codigo[i]);
     } 
-
+    System.out.print("\n\n");
   }
 
   public void funFound(String funcion) {

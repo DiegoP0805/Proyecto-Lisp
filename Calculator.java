@@ -1,6 +1,5 @@
 import java.util.*;
 
-import jdk.internal.jshell.tool.StopDetectingInputStream;
 public class Calculator{
 
   /** 

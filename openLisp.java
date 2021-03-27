@@ -2,12 +2,11 @@
  * @author: Diego Perdomo
  */
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-public class openLisp 
+public class OpenLisp 
 {    
     /** 
      * función que devuelve un arreglo de string que contiene las líneas del código

@@ -1,9 +1,11 @@
-package cosas2;
+
 import java.util.ArrayList;
 public class interpreterLisp{
 
 	String original="";
 	View v= new View();
+
+	ArrayList<ArrayList<String>> funciones= new ArrayList<ArrayList<String>>();
 	public interpreterLisp(String oficial) {
 		original=oficial.toLowerCase();
 		v.ingreso(oficial);//se imprime el original
@@ -11,15 +13,16 @@ public class interpreterLisp{
 		
 	}
     
-	public int runInterprete() {//más adelante te método vebe retornar el int de result()
+	public Object runInterprete() {//mï¿½s adelante te mï¿½todo vebe retornar el int de result()
 		Result(original,""); 
         return 1;
 	}
  
   public void Result(String linea, String posibledefun){//result debe retornar un numero
-    String abc = "abcdefghijklmnopqrstuvwxyz";
+	String abc = "abcdefghijklmnopqrstuvwxyz";
 	String acu="";//acumula las letras para formar palabras y comparar	
-	ArrayList<ArrayList<String>> funciones= new ArrayList<ArrayList<String>>();
+	//System.out.println(linea);
+	
 	for (int y=0;y<linea.length();y++) {
 		if(linea.charAt(y)!=')' && linea.charAt(y)!='(' && linea.charAt(y)!=' '){ //siempre que no sea parentesis y espacio que continue
 			if (abc.indexOf(linea.charAt(y))>-1) {
@@ -28,40 +31,44 @@ public class interpreterLisp{
 		        case "cond":
 		          v.funFound("cond");
 		          acu="";
+		          	
 		          Result(adentro(linea.substring(y+2)),"");
-		          y=limite(linea);
+		          y+=linea.substring(y).indexOf(')');
 		          break;
 		        case "quote":
 		          v.funFound("quote");
 		          acu="";
-		          y=limite(linea);
+		          y+=linea.substring(y).indexOf(')');
 		          //Result(adentro(linea.substring(y+2, limite(linea))),"");
 		          break;
 		        case "setq":
 		          v.funFound("setq");
 		          acu="";
 		          Result(adentro(linea.substring(y+2)),"");
-		          y=limite(linea);
+		          y+=linea.substring(y).indexOf(')');
 		          break;
 		        case "defun":
 		          v.funFound("defun");
 		          acu="";
 		          Result(adentro(linea.substring(y+2)),"defun");
-		          y=limite(linea);
+		          y+=linea.length();
 		          break;
 		        case "write":
 		          v.funFound("write");
 		          acu="";
+		          System.out.println(adentro(linea.substring(y+2)));
 		          Result(adentro(linea.substring(y+2)),"");
-		          y=limite(linea);
+		          y+=linea.substring(y).indexOf(')');
 		          break;
-		        default:  //en caso de que se trate de una funcion nueva o aritmética
+		        default:  //en caso de que se trate de una funcion nueva o aritmï¿½tica
 		          if(linea.charAt(y+1)==')' || linea.charAt(y+1)=='('|| linea.charAt(y+1)==' ' )
 		          {
 		        	  if(posibledefun.equals("defun")) {
 		        		  funciones.add(OrganizaDefun(linea));
 		        		  System.out.println(funciones);
-		        		  //Result(adentro(linea.substring(y+2)),"");
+
+		        		  y+=linea.length()+1;
+		        		 
 		        	  }else {
 		        		  
 		        	  }	
@@ -100,31 +107,28 @@ public class interpreterLisp{
     return acuparentesis;
 	}
   
-  private int limite( String nuevaLinea){
-	//recibe la linea que se quiere analizar
-	//hace lo mismo que el método adentro() pero debuelve cuan largo es el string acuparentesis
-		int parentesis=0; //se emplea conteo de parentesis para esto
-		String acuparentesis="";
-		for (int i=0;i<nuevaLinea.length();i++) {
-			  if(nuevaLinea.charAt(i)=='(' ) {
-					parentesis++;
-				}else if(nuevaLinea.charAt(i)==')') {
-					parentesis--;			
-				}
-			  if (parentesis>=0) {
-					acuparentesis=acuparentesis+nuevaLinea.charAt(i);
-			   }else {
-				   i=nuevaLinea.length();
-			   }
-		  }	   
-		int b=acuparentesis.length();
-	    return b;
+  private int limite( String n)
+  {//recibe la linea que se quiere analizar
+	  int par = 0;
+	  int i = 0;
+	  
+	  
+	  while (i < n.length())//si par no recibe parentesis pares entonces retorna donde lo encontrï¿½
+	  {
+		 if (n.charAt(i) == ')') par--;
+		 if (n.charAt(i) == '(') par++;
+		 if (par == 0) {/*System.out.println(String.valueOf(i));*/ return i;}
+		i++;  
+	  }
+	  //if (par != 0) throw new Exception("RIP");
+	  
+	  return 0;
   }
    
 
   private ArrayList<String> OrganizaDefun(String nuevafun){
 	  //mete todos los elementos de una funcion adentro de un array
-	  //recibe el string que es detectado como una nueva función
+	  //recibe el string que es detectado como una nueva funciï¿½n
 	  String acu="";
 	  ArrayList<String> organizador=new ArrayList<String>();
 	  for(int t=0; t<nuevafun.length();t++) {
@@ -146,4 +150,4 @@ public class interpreterLisp{
   }
 
 }
-//C:\Users\anard\Downloads\proyectoLisp\factorial.txt
+
