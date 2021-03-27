@@ -18,8 +18,6 @@ public class interpreterLisp{
  
   public void Result(String linea, String posibledefun){//result debe retornar un numero
      ArrayList<ArrayList<String>> funciones= new ArrayList<ArrayList<String>>();
-	 //System.out.println("coco " +linea);
-	System.out.println(funciones);
 	String abc = "abcdefghijklmnopqrstuvwxyz";
 	String acu="";//acumula las letras para formar palabras y comparar	
 	//System.out.println(linea);
@@ -29,7 +27,7 @@ public class interpreterLisp{
 			if (abc.indexOf(linea.charAt(y))>-1) {
 		      acu=acu+linea.charAt(y);
 		      ////System.out.println(acu);
-		      
+		      System.out.println("00:"+ y);
 		      switch(acu) {//se compara con todas las posibles instrucciones
 		        case "cond":
 		          v.funFound("cond");
@@ -69,7 +67,10 @@ public class interpreterLisp{
 		        	  if(posibledefun.equals("defun")) {
 		        		  funciones.add(OrganizaDefun(linea));
 		        		  System.out.println(funciones);
-		        		  y+=limite(linea.substring(y));
+		        		  System.out.println("priemra y"+y);
+		        		  System.out.println(linea.length());
+		        		  y+=linea.length()+1;
+		        		 
 		        		  System.out.println("y:¨"+String.valueOf(y));
 		        	  }else {
 		        		  
@@ -152,4 +153,4 @@ public class interpreterLisp{
   }
 
 }
-//C:\Users\anard\Downloads\proyectoLisp\factorial.txt
+
