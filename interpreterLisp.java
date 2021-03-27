@@ -31,34 +31,32 @@ public class interpreterLisp{
 		        case "cond":
 		          v.funFound("cond");
 		          acu="";
-		          	
 		          Result(adentro(linea.substring(y+2)),"");
-		          y+=linea.substring(y).indexOf(')');
+		          y=limite(linea,y);
 		          break;
 		        case "quote":
 		          v.funFound("quote");
 		          acu="";
-		          y+=linea.substring(y).indexOf(')');
+		          y=limite(linea,y);
 		          //Result(adentro(linea.substring(y+2, limite(linea))),"");
 		          break;
 		        case "setq":
 		          v.funFound("setq");
 		          acu="";
 		          Result(adentro(linea.substring(y+2)),"");
-		          y+=linea.substring(y).indexOf(')');
+		          y=limite(linea,y);
 		          break;
 		        case "defun":
 		          v.funFound("defun");
 		          acu="";
 		          Result(adentro(linea.substring(y+2)),"defun");
-		          y+=linea.length();
+		          y=limite(linea,y);
 		          break;
 		        case "write":
 		          v.funFound("write");
 		          acu="";
-		          System.out.println(adentro(linea.substring(y+2)));
 		          Result(adentro(linea.substring(y+2)),"");
-		          y+=linea.substring(y).indexOf(')');
+				  y=limite(linea,y);
 		          break;
 		        default:  //en caso de que se trate de una funcion nueva o aritm�tica
 		          if(linea.charAt(y+1)==')' || linea.charAt(y+1)=='('|| linea.charAt(y+1)==' ' )
@@ -107,10 +105,11 @@ public class interpreterLisp{
     return acuparentesis;
 	}
   
-  private int limite( String n)
+  private int limite(String n, int a)
   {//recibe la linea que se quiere analizar
-	  int par = 0;
-	  int i = 0;
+	  int par = 1;
+	  int i = a;
+	  
 	  
 	  
 	  while (i < n.length())//si par no recibe parentesis pares entonces retorna donde lo encontr�

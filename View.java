@@ -16,7 +16,7 @@ public class View{
         
       if(opt1 == 1){
         System.out.println("\nPor favor ingresar la direccion del archivo lisp..."); 
-        location = "/Users/stefanoaragoni/Downloads/Proyecto-Lisp-Error-arreglado-con-darks/factorial.txt";//scanner.next();
+        location = "/Users/stefanoaragoni/Downloads/Proyecto-Lisp-Main/factorial.txt";//scanner.next();
         testBool = false;
       }else if(opt1 == 2){
         testBool = false;
