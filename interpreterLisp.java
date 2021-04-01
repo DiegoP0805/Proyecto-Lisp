@@ -91,7 +91,10 @@ public class interpreterLisp{
 		        			  if(funciones.get(f).get(0).equals(acu)){//verifica que se trate de una funcion existente
 		        				  for(int r=4;r<funciones.get(f).size();r++) {//se comienza a generar el string nuevo
 		        					  if(funciones.get(f).get(r).equals(funciones.get(f).get(2))) {//si encuentra la variable la reemplaza
-		        						  acufuncion+=linea.charAt(y+2);
+		        						  String acupedacito="";//guarda lo va a dentro de la funcion que se llama
+		        						  acupedacito=adentro(linea.substring(y+2));
+		        						  //desbloquear esta linea cuando ya Result retorne un String y no sea un void
+		        						  //acufuncion+=Result(acupedacito,"");
 		        					  }else {
 		        						  acufuncion+=funciones.get(f).get(r);
 		        					  }
