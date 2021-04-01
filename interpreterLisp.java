@@ -68,11 +68,11 @@ public class interpreterLisp{
 		        		  y+=linea.length()+1;
 		        		 
 		        	  }else {
-		        		  String acufuncion="";
+		        		  String acufuncion=""; //tendra la funcion pero con la variable reemplazada
 		        		  for (int f=0;f<funciones.size();f++) {
-		        			  if(funciones.get(f).get(0).equals(acu)){
-		        				  for(int r=4;r<funciones.get(f).size();r++) {
-		        					  if(funciones.get(f).get(r).equals(funciones.get(f).get(2))) {
+		        			  if(funciones.get(f).get(0).equals(acu)){//verifica que se trate de una funcion existente
+		        				  for(int r=4;r<funciones.get(f).size();r++) {//se comienza a generar el string nuevo
+		        					  if(funciones.get(f).get(r).equals(funciones.get(f).get(2))) {//si encuentra la variable la reemplaza
 		        						  acufuncion+=linea.charAt(y+2);
 		        					  }else {
 		        						  acufuncion+=funciones.get(f).get(r);
@@ -80,7 +80,7 @@ public class interpreterLisp{
 		        				  }
 		        			  }
 		        		  }	
-		        		  Result(acufuncion,"");
+		        		  Result(acufuncion,"");//se ingresa el string nuevo a la funcion de recursión
 		        	  }	
 		        	 
 		          }
