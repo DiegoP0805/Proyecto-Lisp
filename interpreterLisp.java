@@ -1,4 +1,4 @@
-
+package cosas3;
 import java.util.ArrayList;
 public class interpreterLisp{
 
@@ -59,7 +59,7 @@ public class interpreterLisp{
 				  y=limite(linea,y);
 		          break;
 		        default:  //en caso de que se trate de una funcion nueva o aritm�tica
-		          if(linea.charAt(y+1)==')' || linea.charAt(y+1)=='('|| linea.charAt(y+1)==' ' )
+		          if(linea.charAt(y+1)==')' || linea.charAt(y+1)=='('|| linea.charAt(y+1)==' ' )//para verificar que ahi termina la palabra
 		          {
 		        	  if(posibledefun.equals("defun")) {
 		        		  funciones.add(OrganizaDefun(linea));
@@ -68,7 +68,19 @@ public class interpreterLisp{
 		        		  y+=linea.length()+1;
 		        		 
 		        	  }else {
-		        		  
+		        		  String acufuncion="";
+		        		  for (int f=0;f<funciones.size();f++) {
+		        			  if(funciones.get(f).get(0).equals(acu)){
+		        				  for(int r=4;r<funciones.get(f).size();r++) {
+		        					  if(funciones.get(f).get(r).equals(funciones.get(f).get(2))) {
+		        						  acufuncion+=linea.charAt(y+2);
+		        					  }else {
+		        						  acufuncion+=funciones.get(f).get(r);
+		        					  }
+		        				  }
+		        			  }
+		        		  }	
+		        		  Result(acufuncion,"");
 		        	  }	
 		        	 
 		          }
@@ -150,3 +162,4 @@ public class interpreterLisp{
 
 }
 
+//C:\Users\anard\Downloads\Proyecto-Lisp-main\Proyecto-Lisp-main\factorial.txt
