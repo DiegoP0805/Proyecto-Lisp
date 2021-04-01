@@ -137,23 +137,26 @@ public class Calculator{
     Stack<Double> stackOne = new Stack<>();
 
     String signo = String.valueOf(prefix[0]);
-    
-    for (int i = 1; i < prefix.length; i++){
-      if(prefix[i].equals("+") || prefix[i].equals("-") || prefix[i].equals("*") || prefix[i].equals("-")){
-        int tempAmount = prefix.length - (i);
-        String[] tempArray = new String[tempAmount];
+    if(!signo.equals("+") || !signo.equals("-") || !signo.equals("*") || !signo.equals("-")){
+        stackOne.push(Double.parseDouble(prefix[0]));
 
-        for(int j = 0; j < tempAmount; j++){
-          tempArray[j] = prefix[i+j];
-        }
-        stackOne.push((calc(tempArray)));
-        break;
-      }else{
-        stackOne.push(Double.parseDouble(prefix[i]));
-      }
+    }else{
+        for (int i = 1; i < prefix.length; i++){
+            if(prefix[i].equals("+") || prefix[i].equals("-") || prefix[i].equals("*") || prefix[i].equals("-")){
+              int tempAmount = prefix.length - (i);
+              String[] tempArray = new String[tempAmount];
       
+              for(int j = 0; j < tempAmount; j++){
+                tempArray[j] = prefix[i+j];
+              }
+              stackOne.push((calc(tempArray)));
+              break;
+            }else{
+              stackOne.push(Double.parseDouble(prefix[i]));
+            }
+            
+          }
     }
-    
     
     if(signo.equals("+")){
         stackOne.push(sumar(stackOne));

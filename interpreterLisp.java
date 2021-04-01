@@ -1,9 +1,12 @@
-package cosas3;
+import java.util.*;
 import java.util.ArrayList;
 public class interpreterLisp{
 
 	String original="";
 	View v= new View();
+
+	HashMap<String, String> vars = new HashMap<String, String>();
+
 
 	ArrayList<ArrayList<String>> funciones= new ArrayList<ArrayList<String>>();
 	public interpreterLisp(String oficial) {
@@ -22,9 +25,13 @@ public class interpreterLisp{
 	String abc = "abcdefghijklmnopqrstuvwxyz";
 	String acu="";//acumula las letras para formar palabras y comparar	
 	//System.out.println(linea);
+
+	//write(+ 1)
 	
 	for (int y=0;y<linea.length();y++) {
 		if(linea.charAt(y)!=')' && linea.charAt(y)!='(' && linea.charAt(y)!=' '){ //siempre que no sea parentesis y espacio que continue
+
+
 			if (abc.indexOf(linea.charAt(y))>-1) {
 		      acu=acu+linea.charAt(y);
 		      switch(acu) {//se compara con todas las posibles instrucciones
@@ -69,7 +76,18 @@ public class interpreterLisp{
 		        		 
 		        	  }else {
 		        		  String acufuncion=""; //tendra la funcion pero con la variable reemplazada
+
+							factorial n
+
+							factorial factorial 3
+
+							n = factorial 3
+
+							factorial recursion(factorial 3)
+
+
 		        		  for (int f=0;f<funciones.size();f++) {
+
 		        			  if(funciones.get(f).get(0).equals(acu)){//verifica que se trate de una funcion existente
 		        				  for(int r=4;r<funciones.get(f).size();r++) {//se comienza a generar el string nuevo
 		        					  if(funciones.get(f).get(r).equals(funciones.get(f).get(2))) {//si encuentra la variable la reemplaza
@@ -84,9 +102,12 @@ public class interpreterLisp{
 		        	  }	
 		        	 
 		          }
-		          
 		      }
-		    }
+		    }else{
+				//remplazar variables por valores y funciones por valores
+				//llamar a la calcu y enviar las cosas finales
+
+			}
 		  }	else{//si es parentesis o espacio el acumulador se resetea
 			  acu="";
 		  }			
@@ -163,3 +184,7 @@ public class interpreterLisp{
 }
 
 //C:\Users\anard\Downloads\Proyecto-Lisp-main\Proyecto-Lisp-main\factorial.txt
+
+
+
+
