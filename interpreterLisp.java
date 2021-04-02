@@ -13,8 +13,6 @@ public class interpreterLisp{
 	ArrayList<ArrayList<String>> funciones= new ArrayList<ArrayList<String>>();
 	public interpreterLisp(String oficial) {
 		original=oficial.toLowerCase();
-		v.ingreso(oficial);//se imprime el original
-		v.proceso(original);//se imprime en minusculas
 		
 	}
     
@@ -121,36 +119,45 @@ public class interpreterLisp{
 		          acu="";
 				  inside = (adentro(linea.substring(y+2))).trim();
 				  String[] a = inside.split(" ");
-				  boolean b = true;
-				  for(int i = 0; i < a.length ; i++){
-					if(a[i].equals("+")){
-						b=false;
-						break;
-					}else if(a[i].equals("-")){
-						b=false;
-						break;
-					}else if(a[i].equals("*")){
-						b=false;
-						break;
-					}else if(a[i].equals("/")){
-						b=false;
-						break;
-					}
-				  }
-				  if(b){
-					for(int i = 0; i < a.length; i++){
-						if(i == 0){
-							a[0] = "";
-						}if(i == a.length - 1){
-							a[i] = "";
-						}
-					}
-				  }
-				  
-				  String finalString2 = (String.join(" ", a)).trim();
 
-		          resultFinal = Result(finalString2,"");
-				  System.out.println("\nResultado: " + resultFinal+"\n");
+				  if(a[0].equals("'") || a[0].equals("quote")){
+					  String finalText = "";
+					  for(int k = 2; k<a.length-1;k++){
+						  finalText = finalText +" "+a[k];
+					  }
+					  System.out.println("Resultado: " + finalText+"\n");
+				  }else{
+					boolean b = true;
+					for(int i = 0; i < a.length ; i++){
+					  if(a[i].equals("+")){
+						  b=false;
+						  break;
+					  }else if(a[i].equals("-")){
+						  b=false;
+						  break;
+					  }else if(a[i].equals("*")){
+						  b=false;
+						  break;
+					  }else if(a[i].equals("/")){
+						  b=false;
+						  break;
+					  }
+					}
+					if(b){
+					  for(int i = 0; i < a.length; i++){
+						  if(i == 0){
+							  a[0] = "";
+						  }if(i == a.length - 1){
+							  a[i] = "";
+						  }
+					  }
+					}
+					
+					String finalString2 = (String.join(" ", a)).trim();
+  
+					resultFinal = Result(finalString2,"");
+					System.out.println("Resultado: " + resultFinal+"\n");
+				  }
 				  y=limite(linea,y);
 		          break;
 		        default:  //en caso de que se trate de una funcion nueva o aritm�tica
@@ -260,8 +267,10 @@ public class interpreterLisp{
 						lineatemp[i] = lineatemp[i];
 					}else{
 						try {
+							Double.parseDouble(lineatemp[i]);
 							lineatemp[i] = calc.calc(lineatemp[i].split(" "));
-						} catch (StringIndexOutOfBoundsException e) {
+						} catch (NumberFormatException e) {
+							System.out.println("");
 							String temp1000 = Result(lineatemp[i], "");
 							lineatemp[i] = temp1000;
 						}
@@ -270,7 +279,7 @@ public class interpreterLisp{
 					
 				}
 				resultFinal = calc.calc(lineatemp);
-				//y=linea.length();
+				y=linea.length();
 
 			}
 		  }	else{//si es parentesis o espacio el acumulador se resetea
