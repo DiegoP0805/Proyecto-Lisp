@@ -121,13 +121,32 @@ public class interpreterLisp{
 		          acu="";
 				  inside = (adentro(linea.substring(y+2))).trim();
 				  String[] a = inside.split(" ");
-				  for(int i = 0; i < a.length; i++){
-					  if(i == 0){
-						  a[0] = "";
-					  }if(i == a.length - 1){
-						  a[i] = "";
-					  }
+				  boolean b = true;
+				  for(int i = 0; i < a.length ; i++){
+					if(a[i].equals("+")){
+						b=false;
+						break;
+					}else if(a[i].equals("-")){
+						b=false;
+						break;
+					}else if(a[i].equals("*")){
+						b=false;
+						break;
+					}else if(a[i].equals("/")){
+						b=false;
+						break;
+					}
 				  }
+				  if(b){
+					for(int i = 0; i < a.length; i++){
+						if(i == 0){
+							a[0] = "";
+						}if(i == a.length - 1){
+							a[i] = "";
+						}
+					}
+				  }
+				  
 				  String finalString2 = (String.join(" ", a)).trim();
 
 		          resultFinal = Result(finalString2,"");
@@ -185,15 +204,17 @@ public class interpreterLisp{
 
 		        		  y+=linea.length()+1;
 		        		 
-		        	  }else if(linea.length() < 20) {
+		        	  }else{
 		        		  String acufuncion=""; //tendra la funcion pero con la variable reemplazada
 
 
 		        		  for (int f=0;f<funciones.size();f++) {
 
 		        			  if(funciones.get(f).get(0).equals(acu)){//verifica que se trate de una funcion existente
+								String letter = funciones.get(f).get(2);
+
 		        				  for(int r=4;r<funciones.get(f).size();r++) {//se comienza a generar el string nuevo
-		        					  if(funciones.get(f).get(r).equals(funciones.get(f).get(2))) {//si encuentra la variable la reemplaza
+		        					  if(funciones.get(f).get(r).equals(letter)) {//si encuentra la variable la reemplaza
 										String acupedacito="";//guarda lo va a dentro de la funcion que se llama
 										acupedacito=adentro(linea.substring(y+2));
 										acufuncion+=Result(acupedacito,"");
