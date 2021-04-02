@@ -2,28 +2,22 @@
  * @author: Diego Perdomo
  */
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
 public class OpenLisp 
-{
-    /**
-     * Constructor de la clase
-     */
-    public OpenLisp()
-    {
+{    
+    public OpenLisp(){
 
-    }   
-    
-    
+    }
     /** 
      * función que devuelve un arreglo de string que contiene las líneas del código
      * en lisp.
      * @param location
      * @return String[]
      */
+
     public String[] open(String location)
     {
         try 

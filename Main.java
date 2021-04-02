@@ -30,10 +30,6 @@ public class Main {
           interprete.runInterprete();
           //interprete.Result(str,"");
 
-          Calculator calc = new Calculator();
-          String[] a = {"+","1","2","3"};
-
-          System.out.println(calc.calc(a));
         }
 
       }else{

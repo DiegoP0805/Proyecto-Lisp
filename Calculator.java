@@ -3,105 +3,6 @@ import java.util.*;
 public class Calculator{
 
   /** 
-   * Método que recibe un arreglo de expresiones infix que devuelve luego un arreglo de expresiones 
-   * postfix que son el equivalente de las originales.
-   * @param s
-   * @return String
-   */
-  public Double Convertir(String[] s)
-  {
-      Character[] signs = {'+','-','*','/'};
-      ArrayList<Character> sg = new ArrayList<>(Arrays.asList(signs));        
-      ArrayList<String> Postfix = new ArrayList<>();
-      String operacion = ""; 
-      
-      for(String qwerty: s)
-      {
-          operacion = "";
-          if(validateParenthesis(qwerty))
-          {
-              Stack<Character> pila = new Stack<>();
-              for(int i = 0; i < qwerty.length(); i++)
-              {
-                  char temp = qwerty.charAt(i);
-                  if(Character.isDigit(temp))
-                  {
-                      operacion += String.valueOf(temp);
-                  }
-                  else if(temp == '(')
-                  {
-                      pila.push(temp);
-                  }
-                  else if(temp == ')')
-                  {
-                      while(!pila.empty() && pila.peek() != '(')
-                      {
-                          operacion += pila.pop();
-                      }
-                      pila.pop();
-                  }
-                  else if(sg.contains(temp))
-                  {
-                      while(!pila.empty() && jerarquia(temp) <= jerarquia(pila.peek()))
-                      {
-                          operacion += pila.pop();
-                      }
-                      pila.push(temp);
-                  }
-                  
-              }
-              while(!pila.empty())
-              {
-                  operacion += pila.pop();
-              }
-
-              Postfix.add(operacion);
-          } 
-      }
-      String[] expresiones = new String[Postfix.size()];
-      for(int i = 0; i < Postfix.size(); i++)
-      {
-          expresiones[i] = Postfix.get(i);
-      }
-
-      String c = "";
-          
-      for(int i = 0; i < expresiones.length; i++){
-        c = c+" "+expresiones[i];
-      }
-
-      System.out.println(c);
-
-     
-    return calc(expresiones);
-  }
-  
-  /** 
-   * Función que devuelve el valor de un signo de operación que representa un valor asignado según
-   * la jerarquía de importancia de la operación
-   * @param c
-   * @return int
-   */
-  private static int jerarquia(char c)
-  {
-      switch(c)
-      {
-          case '+': 
-          case '-': 
-              return 1; 
-          case '*': 
-          case '/': 
-              return 2; 
-          case '^': 
-              return 3; 
-      } 
-      return -1; 
-  }
-
-
-
-  
-  /** 
    * Función de tipo boolean que devuelve el valor verdadero o falso según la cantidad de paréntesis 
    * de apertura y cierre coincidan.
    * @param s
@@ -132,25 +33,36 @@ public class Calculator{
       }
   }
 
-  public Double calc(String[] prefix){
+  public String calc(String[] prefix){
         
     Stack<Double> stackOne = new Stack<>();
 
-    String signo = String.valueOf(prefix[0]);
-    if(!signo.equals("+") || !signo.equals("-") || !signo.equals("*") || !signo.equals("-")){
-        stackOne.push(Double.parseDouble(prefix[0]));
+    String signo = "";
 
+    if(prefix.length == 1){
+        stackOne.push(Double.parseDouble(prefix[0]));
     }else{
-        for (int i = 1; i < prefix.length; i++){
-            if(prefix[i].equals("+") || prefix[i].equals("-") || prefix[i].equals("*") || prefix[i].equals("-")){
+        signo = String.valueOf(prefix[1]);
+        for (int i = 2; i < prefix.length; i++){ //2 representa el primer coso después del primer signo matemático
+            if(prefix[i].equals("(")){
+
               int tempAmount = prefix.length - (i);
               String[] tempArray = new String[tempAmount];
-      
-              for(int j = 0; j < tempAmount; j++){
-                tempArray[j] = prefix[i+j];
+
+              for(int k = 0; k < tempAmount ; k++){
+                  tempArray[k] = prefix[i+k];
               }
-              stackOne.push((calc(tempArray)));
-              break;
+
+              String finalString = String.join(" ", tempArray);
+              String[] inside = adentro(finalString);
+              String finalString2 = String.join(" ", inside);
+
+              stackOne.push(Double.parseDouble(calc(inside)));
+
+              i = i+inside.length;
+
+            }else if(prefix[i].equals(")")){
+                i++;
             }else{
               stackOne.push(Double.parseDouble(prefix[i]));
             }
@@ -171,8 +83,27 @@ public class Calculator{
         stackOne.push(dividir(stackOne));
     }
     
-    return stackOne.pop();
+    return Double.toString(stackOne.pop());
   }
+
+  private String[] adentro (String nuevaLinea) {//determina que hay dentro de cada instrucción
+    //recibe la posición en la que se quedó el for de arriba sí no recorre toda la linea
+      int parentesis=0; //se emplea conteo de parentesis para esto
+      String acuparentesis="";
+      for (int i=0;i<nuevaLinea.length();i++) {
+            if(nuevaLinea.charAt(i)=='(' ) {
+                  parentesis++;
+              }else if(nuevaLinea.charAt(i)==')') {
+                  parentesis--;			
+              }
+            if (parentesis>0) {
+                  acuparentesis=acuparentesis+nuevaLinea.charAt(i);
+             }else {
+                 i=nuevaLinea.length();
+             }
+        }
+      return acuparentesis.split(" ");
+    }
     
 
   public double sumar(Stack<Double> value){

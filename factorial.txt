@@ -1,6 +1,3 @@
-(defun factor(n)
-(cond ((= n 1) 1)
-(t (* n (factor(- n 1))))
-)
-)
-(write(factor 9))
+(setq a ( + ( / 4 2 ) ( + 1 2 3 4 ) ))
+(write a)
+

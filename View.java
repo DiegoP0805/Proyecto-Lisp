@@ -1,10 +1,14 @@
-package cosas3;
+
 import java.util.Scanner; 
 import java.util.*;
 
 public class View{
 
   Scanner scanner = new Scanner(System.in); //Se crea el scanner para recibir ingresos del usuario 
+
+  public View(){
+    
+  }
 
   public String Welcome(){
     boolean testBool = true;

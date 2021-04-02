@@ -6,7 +6,9 @@ public class interpreterLisp{
 	View v= new View();
 
 	HashMap<String, String> vars = new HashMap<String, String>();
+	HashMap<String, String[]> vars2 = new HashMap<String, String[]>();
 
+	String inside = "";
 
 	ArrayList<ArrayList<String>> funciones= new ArrayList<ArrayList<String>>();
 	public interpreterLisp(String oficial) {
@@ -17,58 +19,86 @@ public class interpreterLisp{
 	}
     
 	public Object runInterprete() {//m�s adelante te m�todo vebe retornar el int de result()
-		Result(original,""); 
-        return 1;
+		String resultFinalString = Result(original,""); 
+        return resultFinalString;
 	}
  
-  public void Result(String linea, String posibledefun){//result debe retornar un numero
+  public String Result(String linea, String posibledefun){//result debe retornar un numero
 	String abc = "abcdefghijklmnopqrstuvwxyz";
 	String acu="";//acumula las letras para formar palabras y comparar	
-	//System.out.println(linea);
+	int y=0;
 
-	//write(+ 1)
+	String resultFinal = "";
 	
-	for (int y=0;y<linea.length();y++) {
+	while(y<linea.length()){
+		
 		if(linea.charAt(y)!=')' && linea.charAt(y)!='(' && linea.charAt(y)!=' '){ //siempre que no sea parentesis y espacio que continue
-
 
 			if (abc.indexOf(linea.charAt(y))>-1) {
 		      acu=acu+linea.charAt(y);
+
 		      switch(acu) {//se compara con todas las posibles instrucciones
-		        case "cond":
+		        /*case "cond":
 		          v.funFound("cond");
 		          acu="";
-		          Result(adentro(linea.substring(y+2)),"");
+		          resultFinal = Result(adentro(linea.substring(y+2)),"");
 		          y=limite(linea,y);
 		          break;
-		        case "quote":
+		        *//*case "quote":
 		          v.funFound("quote");
 		          acu="";
 		          y=limite(linea,y);
 		          //Result(adentro(linea.substring(y+2, limite(linea))),"");
 		          break;
-		        case "setq":
-		          v.funFound("setq");
-		          acu="";
-		          Result(adentro(linea.substring(y+2)),"");
-		          y=limite(linea,y);
-		          break;
-		        case "defun":
+		        */case "setq":
+
+					v.funFound("setq");
+					acu="";
+
+					String instruccion = adentro(linea.substring(y+2));
+
+					String[] splited = instruccion.split(" ");
+
+					String var = splited[0];
+					int len = var.length();
+
+					String rest = (instruccion.substring(len)).trim();
+
+					resultFinal = Result(rest,"");
+
+					vars.put(var, resultFinal);
+
+					y=limite(linea,y);
+					break;
+				/*case "list":
+
+					Result(adentro(linea.substring(y+2)),"");
+
+					y=limite(linea,y);
+					break;
+
+		        */case "defun":
 		          v.funFound("defun");
 		          acu="";
-		          Result(adentro(linea.substring(y+2)),"defun");
+		          resultFinal = Result(adentro(linea.substring(y+2)),"defun");
 		          y=limite(linea,y);
 		          break;
 		        case "write":
 		          v.funFound("write");
 		          acu="";
-		          Result(adentro(linea.substring(y+2)),"");
+				  inside = adentro(linea.substring(y+2));
+		          resultFinal = Result(inside,"");
+				  System.out.println("\nResultado:" + resultFinal);
 				  y=limite(linea,y);
 		          break;
 		        default:  //en caso de que se trate de una funcion nueva o aritm�tica
-		          if(linea.charAt(y+1)==')' || linea.charAt(y+1)=='('|| linea.charAt(y+1)==' ' )//para verificar que ahi termina la palabra
+				  if(vars.containsKey(acu)){
+					resultFinal = vars.get(acu);
+					y+=linea.length()+1;
+				  }
+		          else if(linea.charAt(y+1)==')' || linea.charAt(y+1)=='('|| linea.charAt(y+1)==' ' )//para verificar que ahi termina la palabra
 		          {
-		        	  if(posibledefun.equals("defun")) {
+					  if(posibledefun.equals("defun")) {
 		        		  funciones.add(OrganizaDefun(linea));
 		        		  System.out.println(funciones);
 
@@ -77,46 +107,47 @@ public class interpreterLisp{
 		        	  }else {
 		        		  String acufuncion=""; //tendra la funcion pero con la variable reemplazada
 
-							factorial n
-
-							factorial factorial 3
-
-							n = factorial 3
-
-							factorial recursion(factorial 3)
-
 
 		        		  for (int f=0;f<funciones.size();f++) {
 
 		        			  if(funciones.get(f).get(0).equals(acu)){//verifica que se trate de una funcion existente
 		        				  for(int r=4;r<funciones.get(f).size();r++) {//se comienza a generar el string nuevo
 		        					  if(funciones.get(f).get(r).equals(funciones.get(f).get(2))) {//si encuentra la variable la reemplaza
-		        						  String acupedacito="";//guarda lo va a dentro de la funcion que se llama
-		        						  acupedacito=adentro(linea.substring(y+2));
-		        						  //desbloquear esta linea cuando ya Result retorne un String y no sea un void
-		        						  //acufuncion+=Result(acupedacito,"");
+										String acupedacito="";//guarda lo va a dentro de la funcion que se llama
+										acupedacito=adentro(linea.substring(y+2));
+										acufuncion+=Result(acupedacito,"");
 		        					  }else {
 		        						  acufuncion+=funciones.get(f).get(r);
 		        					  }
 		        				  }
 		        			  }
-		        		  }	
-		        		  Result(acufuncion,"");//se ingresa el string nuevo a la funcion de recursión
+		        		  }
+
+
+		        		  resultFinal = Result(acufuncion,"");//se ingresa el string nuevo a la funcion de recursión
 		        	  }	
+				
 		        	 
 		          }
-		      }
+				}
+		      
 		    }else{
-				//remplazar variables por valores y funciones por valores
-				//llamar a la calcu y enviar las cosas finales
+				Calculator calc = new Calculator();
+				String[] lineatemp = linea.split(" ");
+				resultFinal = calc.calc(lineatemp);
+				//y=linea.length();
 
 			}
 		  }	else{//si es parentesis o espacio el acumulador se resetea
 			  acu="";
-		  }			
+		}			
+
+		y++;
 		
-		}
+	}
 		//funciones.add("popis");
+
+		return resultFinal;
 		
 		
 	}
