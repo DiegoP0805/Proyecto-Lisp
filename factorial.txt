@@ -1,3 +1,7 @@
-(setq a ( + ( / 4 2 ) ( + 1 2 3 4 ) ))
-(write a)
-
+(setq b ( 1 ))
+(list a ( b hola ))
+(list c quote ( b hola ))
+(write ( b ))
+(Write ( a ))
+(Write ( c ))
+(write ( hola ))

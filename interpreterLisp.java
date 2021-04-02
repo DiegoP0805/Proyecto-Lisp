@@ -44,12 +44,6 @@ public class interpreterLisp{
 		          resultFinal = Result(adentro(linea.substring(y+2)),"");
 		          y=limite(linea,y);
 		          break;
-		        *//*case "quote":
-		          v.funFound("quote");
-		          acu="";
-		          y=limite(linea,y);
-		          //Result(adentro(linea.substring(y+2, limite(linea))),"");
-		          break;
 		        */case "setq":
 
 					v.funFound("setq");
@@ -70,14 +64,53 @@ public class interpreterLisp{
 
 					y=limite(linea,y);
 					break;
-				/*case "list":
 
-					Result(adentro(linea.substring(y+2)),"");
+				case "list":
+
+					v.funFound("list");
+					acu="";
+
+					String instruccion2 = adentro(linea.substring(y+2));
+
+					String[] splited2 = instruccion2.split(" ");
+
+					String var2 = splited2[0];
+					if(splited2[1].equals("'") || splited2[1].equals("quote")){
+						String var3 = var2  + " " + splited2[1];
+
+						int len2 = var3.length();
+
+						String instru = adentro((instruccion2.substring(len2)).trim());
+
+						String[] rest2 = (instru.split(" "));
+						
+						vars2.put(var2, rest2);
+
+					}else{
+						int len2 = var2.length();
+
+						String rest2 = (instruccion2.substring(len2)).trim();
+
+						String[] rest3 = rest2.split(" ");
+
+						for(int i = 0; i < rest3.length; i++){
+							if(rest3[i].equals("(")){
+
+							}else if(rest3[i].equals(")")){
+
+							}else{
+								rest3[i] = Result(rest3[i],"");
+							}
+								
+						}
+
+						vars2.put(var2, rest3);
+					}
 
 					y=limite(linea,y);
 					break;
 
-		        */case "defun":
+		        case "defun":
 		          v.funFound("defun");
 		          acu="";
 		          resultFinal = Result(adentro(linea.substring(y+2)),"defun");
@@ -88,17 +121,40 @@ public class interpreterLisp{
 		          acu="";
 				  inside = adentro(linea.substring(y+2));
 		          resultFinal = Result(inside,"");
-				  System.out.println("\nResultado:" + resultFinal);
+				  System.out.println("\nResultado: " + resultFinal+"\n");
 				  y=limite(linea,y);
 		          break;
 		        default:  //en caso de que se trate de una funcion nueva o aritm�tica
-				  if(vars.containsKey(acu)){
+					String[] testFinal = acu.split(" ");
+
+				  if(vars.containsKey(acu) && testFinal.length < 3){
 					resultFinal = vars.get(acu);
 					y+=linea.length()+1;
+				  }else if(vars2.containsKey(acu) && testFinal.length < 3){
+					String finalList = String.join(" ", vars2.get(acu));
+					finalList = adentro(finalList);
+					resultFinal = finalList;
+					y+=linea.length()+1;
+				  }else if(testFinal.length == 1){
+					resultFinal = acu;
 				  }
-		          else if(linea.charAt(y+1)==')' || linea.charAt(y+1)=='('|| linea.charAt(y+1)==' ' )//para verificar que ahi termina la palabra
+		          else if(linea.charAt(y+1)==')' || linea.charAt(y+1)=='('|| linea.charAt(y+1)==' ')//para verificar que ahi termina la palabra
 		          {
-					  if(posibledefun.equals("defun")) {
+					if(vars.containsKey(acu)){
+						resultFinal = vars.get(acu);
+						y+=linea.length()+1;
+					  }
+					  else if(vars2.containsKey(acu)){
+						String[] final100 = vars2.get(acu);
+						final100[0] = "";
+						final100[final100.length-1] = "";
+						String finalList = String.join(" ", final100);
+						finalList = adentro(finalList);
+						resultFinal = finalList;
+						y+=linea.length()+1;
+					  }
+
+					  else if(posibledefun.equals("defun")) {
 		        		  funciones.add(OrganizaDefun(linea));
 		        		  System.out.println(funciones);
 
@@ -123,8 +179,11 @@ public class interpreterLisp{
 		        			  }
 		        		  }
 
+							resultFinal = Result(acufuncion,"");//se ingresa el string nuevo a la funcion de recursión
+						  
 
-		        		  resultFinal = Result(acufuncion,"");//se ingresa el string nuevo a la funcion de recursión
+
+		        		  
 		        	  }	
 				
 		        	 

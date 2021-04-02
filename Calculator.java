@@ -41,6 +41,8 @@ public class Calculator{
 
     if(prefix.length == 1){
         stackOne.push(Double.parseDouble(prefix[0]));
+    }else if(prefix.length == 3){
+        stackOne.push(Double.parseDouble(prefix[1]));
     }else{
         signo = String.valueOf(prefix[1]);
         for (int i = 2; i < prefix.length; i++){ //2 representa el primer coso después del primer signo matemático
