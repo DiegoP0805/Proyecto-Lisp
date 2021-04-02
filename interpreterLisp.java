@@ -38,13 +38,13 @@ public class interpreterLisp{
 		      acu=acu+linea.charAt(y);
 
 		      switch(acu) {//se compara con todas las posibles instrucciones
-		        /*case "cond":
+		        case "cond":
 		          v.funFound("cond");
 		          acu="";
 		          resultFinal = Result(adentro(linea.substring(y+2)),"");
 		          y=limite(linea,y);
 		          break;
-		        */case "setq":
+		        case "setq":
 
 					v.funFound("setq");
 					acu="";
@@ -119,26 +119,50 @@ public class interpreterLisp{
 		        case "write":
 		          v.funFound("write");
 		          acu="";
-				  inside = adentro(linea.substring(y+2));
-		          resultFinal = Result(inside,"");
+				  inside = (adentro(linea.substring(y+2))).trim();
+				  String[] a = inside.split(" ");
+				  for(int i = 0; i < a.length; i++){
+					  if(i == 0){
+						  a[0] = "";
+					  }if(i == a.length - 1){
+						  a[i] = "";
+					  }
+				  }
+				  String finalString2 = (String.join(" ", a)).trim();
+
+		          resultFinal = Result(finalString2,"");
 				  System.out.println("\nResultado: " + resultFinal+"\n");
 				  y=limite(linea,y);
 		          break;
 		        default:  //en caso de que se trate de una funcion nueva o aritm�tica
 					String[] testFinal = acu.split(" ");
+					Character testFinal2 = 'a';
+					
+					try {
+						if(linea.length() == y+1){
+
+						}else{
+							testFinal2 = linea.charAt(y+1);
+						}
+						
+					} catch (StringIndexOutOfBoundsException e) {
+						
+					}
 
 				  if(vars.containsKey(acu) && testFinal.length < 3){
 					resultFinal = vars.get(acu);
 					y+=linea.length()+1;
 				  }else if(vars2.containsKey(acu) && testFinal.length < 3){
-					String finalList = String.join(" ", vars2.get(acu));
+					String[] final100 = vars2.get(acu);
+					final100[0] = "";
+					final100[final100.length-1] = "";
+					String finalList = String.join(" ", final100);
+
 					finalList = adentro(finalList);
 					resultFinal = finalList;
 					y+=linea.length()+1;
-				  }else if(testFinal.length == 1){
-					resultFinal = acu;
 				  }
-		          else if(linea.charAt(y+1)==')' || linea.charAt(y+1)=='('|| linea.charAt(y+1)==' ')//para verificar que ahi termina la palabra
+		          else if(testFinal2 ==')' || testFinal2 =='('|| testFinal2 ==' ')//para verificar que ahi termina la palabra
 		          {
 					if(vars.containsKey(acu)){
 						resultFinal = vars.get(acu);
@@ -149,6 +173,7 @@ public class interpreterLisp{
 						final100[0] = "";
 						final100[final100.length-1] = "";
 						String finalList = String.join(" ", final100);
+
 						finalList = adentro(finalList);
 						resultFinal = finalList;
 						y+=linea.length()+1;
@@ -160,7 +185,7 @@ public class interpreterLisp{
 
 		        		  y+=linea.length()+1;
 		        		 
-		        	  }else {
+		        	  }else if(linea.length() < 20) {
 		        		  String acufuncion=""; //tendra la funcion pero con la variable reemplazada
 
 
@@ -178,21 +203,51 @@ public class interpreterLisp{
 		        				  }
 		        			  }
 		        		  }
-
+						    y+=linea.length()+1;
 							resultFinal = Result(acufuncion,"");//se ingresa el string nuevo a la funcion de recursión
 						  
 
 
 		        		  
 		        	  }	
+
 				
 		        	 
-		          }
+		          }else if(testFinal.length == 1 || testFinal.length == 3){
+					resultFinal = acu;
+				  }
 				}
 		      
 		    }else{
 				Calculator calc = new Calculator();
 				String[] lineatemp = linea.split(" ");
+				for(int i = 0; i < lineatemp.length; i++){
+					if(lineatemp[i].equals("(")){
+						lineatemp[i] = lineatemp[i];
+					}else if(lineatemp[i].equals(")")){
+						lineatemp[i] = lineatemp[i];
+					}else if(lineatemp[i].equals("+")){
+						lineatemp[i] = lineatemp[i];
+					}
+					else if(lineatemp[i].equals("-")){
+						lineatemp[i] = lineatemp[i];
+					}
+					else if(lineatemp[i].equals("*")){
+						lineatemp[i] = lineatemp[i];
+					}
+					else if(lineatemp[i].equals("/")){
+						lineatemp[i] = lineatemp[i];
+					}else{
+						try {
+							lineatemp[i] = calc.calc(lineatemp[i].split(" "));
+						} catch (StringIndexOutOfBoundsException e) {
+							String temp1000 = Result(lineatemp[i], "");
+							lineatemp[i] = temp1000;
+						}
+						
+					}
+					
+				}
 				resultFinal = calc.calc(lineatemp);
 				//y=linea.length();
 
