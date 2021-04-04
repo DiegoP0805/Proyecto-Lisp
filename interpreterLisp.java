@@ -248,37 +248,80 @@ public class interpreterLisp{
 		      
 		    }else{
 				Calculator calc = new Calculator();
-				String[] lineatemp = linea.split(" ");
-				for(int i = 0; i < lineatemp.length; i++){
-					if(lineatemp[i].equals("(")){
-						lineatemp[i] = lineatemp[i];
-					}else if(lineatemp[i].equals(")")){
-						lineatemp[i] = lineatemp[i];
-					}else if(lineatemp[i].equals("+")){
-						lineatemp[i] = lineatemp[i];
+				String newCalc = "";
+				int par = 0;
+				for(int i = 0; i < linea.length(); i++){
+					if(linea.charAt(i) == '('){
+						newCalc = newCalc + linea.charAt(i);
+
+					}else if(linea.charAt(i) == ')'){
+						newCalc = newCalc + linea.charAt(i);
+
+					}else if(linea.charAt(i) == '+'){
+						newCalc = newCalc + linea.charAt(i);
 					}
-					else if(lineatemp[i].equals("-")){
-						lineatemp[i] = lineatemp[i];
+					else if(linea.charAt(i) == '-'){
+						newCalc = newCalc + linea.charAt(i);
 					}
-					else if(lineatemp[i].equals("*")){
-						lineatemp[i] = lineatemp[i];
+					else if(linea.charAt(i) == '*'){
+						newCalc = newCalc + linea.charAt(i);
 					}
-					else if(lineatemp[i].equals("/")){
-						lineatemp[i] = lineatemp[i];
+					else if(linea.charAt(i) == '/'){
+						newCalc = newCalc + linea.charAt(i);
+					}else if(linea.charAt(i) == ' '){
+						newCalc = newCalc + linea.charAt(i);
 					}else{
+
 						try {
-							Double.parseDouble(lineatemp[i]);
-							lineatemp[i] = calc.calc(lineatemp[i].split(" "));
+							String tempCalc2 = "" + linea.charAt(i);
+							Double.parseDouble(tempCalc2);
+							String tempCalc3 = (linea.substring(i)).trim();
+
+							int tempCont = 0;
+							for(int k = 0; k < tempCalc3.length(); k++){
+								
+								if(tempCalc3.charAt(k) == ' '){
+									break;
+								}
+								tempCont ++;
+							}
+
+							
+							String tempCalc4 = (linea.substring(i, i+tempCont)).trim();
+							i = i + tempCont-1;
+							newCalc = newCalc + tempCalc4;
+							
+
 						} catch (NumberFormatException e) {
-							System.out.println("");
-							String temp1000 = Result(lineatemp[i], "");
-							lineatemp[i] = temp1000;
+							int parentesis=1; //se emplea conteo de parentesis para esto
+							String acuparentesis="";
+							String tempCalc = linea.substring(i);
+
+							for (int j=0;j<tempCalc.length();j++) {
+								if(tempCalc.charAt(j)=='(' ) {
+										
+										parentesis++;
+								}else if(tempCalc.charAt(j)==')') {
+										
+										parentesis--;			
+								}
+								if (parentesis>=0) {
+										acuparentesis=acuparentesis+tempCalc.charAt(j);
+								}else {
+									j=tempCalc.length();
+								}
+							}
+
+							i = i + acuparentesis.length()-3;
+
+							String temp1000 = Result(acuparentesis, "");
+							newCalc = newCalc + temp1000;
 						}
 						
 					}
 					
 				}
-				resultFinal = calc.calc(lineatemp);
+				resultFinal = calc.calc(newCalc.split(" "));
 				y=linea.length();
 
 			}

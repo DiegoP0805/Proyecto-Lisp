@@ -1,4 +1,5 @@
 (setq b ( 1 ))
 (defun a(n)
 ( + n 100 b ))
-(write ( a(3) ))
+(write ( a ( - 3 2 ) ))
+(write ' ( a ( - 3 2 ) ))
