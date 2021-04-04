@@ -220,11 +220,14 @@ public class interpreterLisp{
 		        			  if(funciones.get(f).get(0).equals(acu)){//verifica que se trate de una funcion existente
 								String letter = funciones.get(f).get(2);
 
+								String tempFun = adentro(linea.substring(y+2));
+								String tempFun2 = Result(tempFun,"");
+
 		        				  for(int r=4;r<funciones.get(f).size();r++) {//se comienza a generar el string nuevo
 		        					  if(funciones.get(f).get(r).equals(letter)) {//si encuentra la variable la reemplaza
-										String acupedacito="";//guarda lo va a dentro de la funcion que se llama
-										acupedacito=adentro(linea.substring(y+2));
-										acufuncion+=Result(acupedacito,"");
+
+										acufuncion+=tempFun2;
+
 		        					  }else {
 		        						  acufuncion+=funciones.get(f).get(r);
 		        					  }
