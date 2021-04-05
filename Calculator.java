@@ -33,6 +33,12 @@ public class Calculator{
       }
   }
 
+    /** 
+     * función que se encarga de recibir y analizar la operación matemática
+     * en prefix.
+     * @param String[]
+     * @return String
+     */
   public String calc(String[] prefix){
         
     Stack<Double> stackOne = new Stack<>();
@@ -88,6 +94,11 @@ public class Calculator{
     return Double.toString(stackOne.pop());
   }
 
+  /** 
+     * Regresa el contenido de un set inicial y final de parentesis
+     * @param String
+     * @return String[]
+     */
   private String[] adentro (String nuevaLinea) {//determina que hay dentro de cada instrucción
     //recibe la posición en la que se quedó el for de arriba sí no recorre toda la linea
       int parentesis=0; //se emplea conteo de parentesis para esto
@@ -107,7 +118,12 @@ public class Calculator{
       return acuparentesis.split(" ");
     }
     
-
+    
+    /** 
+     * Se encarga de sumar
+     * @param Stack<Double>
+     * @return Double
+     */
   public double sumar(Stack<Double> value){
       
     double answer = 0.00;
@@ -118,6 +134,11 @@ public class Calculator{
     return answer;
   }
 
+  /** 
+     * Se encarga de multiplicar
+     * @param Stack<Double>
+     * @return Double
+     */
   public double multiplicar(Stack<Double> value){
     double answer = value.pop();
     int lenstack = value.size();
@@ -127,6 +148,11 @@ public class Calculator{
     return answer;
   }
     
+  /** 
+     * Se encarga de restar
+     * @param Stack<Double>
+     * @return Double
+     */
   public double restar(Stack<Double> value){
     Stack<Double> temp_stack = revertStack(value);
     double answer = temp_stack.pop();
@@ -138,6 +164,11 @@ public class Calculator{
     return answer;
   }
 
+  /** 
+     * Se encarga de dividir
+     * @param Stack<Double>
+     * @return Double
+     */
   public double dividir(Stack<Double> value){
     Stack<Double> temp_stack = revertStack(value);
     double answer = temp_stack.pop();
@@ -150,6 +181,11 @@ public class Calculator{
     return answer;
   }
     
+    /** 
+     * Se encarga de revertir el orden del stack
+     * @param Stack<Double>
+     * @return Double
+     */
   public Stack<Double> revertStack(Stack<Double> value){
     Stack<Double> temp_stack = new Stack<Double>();
     while(!value.empty()){
