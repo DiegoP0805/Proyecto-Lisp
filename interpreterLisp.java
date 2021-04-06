@@ -1,3 +1,11 @@
+/*******************************************************
+* Universidad del Valle de Guatemala
+* Algoritmos y Estructuras de Datos
+* Profesor: Moises Gonzales
+*@author Stefano Aragoni, Ana Ramirez, Diego Perdomo
+*
+********************************************************/
+
 import java.util.*;
 import java.util.ArrayList;
 public class interpreterLisp{
@@ -5,22 +13,42 @@ public class interpreterLisp{
 	String original="";
 	View v= new View();
 
+	//hashMaps de setq y de lists
 	HashMap<String, String> vars = new HashMap<String, String>();
 	HashMap<String, String[]> vars2 = new HashMap<String, String[]>();
 
 	String inside = "";
 
+	//arraylist que almacena las funciones
 	ArrayList<ArrayList<String>> funciones= new ArrayList<ArrayList<String>>();
+
+	/** 
+	 * Metodo constructor que recibe el codigo del txt
+	 * @param oficial
+	 * @return void
+	 */
 	public interpreterLisp(String oficial) {
 		original=oficial.toLowerCase();
 		
 	}
     
+	
+	/** 
+	 * Envia el codigo recibido al metodo interprete
+	 * @return Object
+	 */
 	public Object runInterprete() {//m�s adelante te m�todo vebe retornar el int de result()
 		String resultFinalString = Result(original,""); 
         return resultFinalString;
 	}
  
+  
+  /** 
+   * Metodo interprete recursivo. 
+   * @param linea
+   * @param posibledefun
+   * @return String
+   */
   public String Result(String linea, String posibledefun){//result debe retornar un numero
 	String abc = "abcdefghijklmnopqrstuvwxyz";
 	String acu="";//acumula las letras para formar palabras y comparar	
@@ -28,6 +56,7 @@ public class interpreterLisp{
 
 	String resultFinal = "";
 	
+	//recorre cada caracter del codigo
 	while(y<linea.length()){
 		
 		if(linea.charAt(y)!=')' && linea.charAt(y)!='(' && linea.charAt(y)!=' '){ //siempre que no sea parentesis y espacio que continue
@@ -36,17 +65,25 @@ public class interpreterLisp{
 		      acu=acu+linea.charAt(y);
 
 		      switch(acu) {//se compara con todas las posibles instrucciones
+				//si se encunetra una condicion
 		        case "cond":
 		          v.funFound("cond");
 		          acu="";
-		          resultFinal = Result(adentro(linea.substring(y+2)),"");
+				  Cond condition = new Cond();
+				  //se envia el codigo a la clase cond para analisis
+				  String inside = adentro(linea.substring(y+2));
+				  String returnedString = (condition.findcondition(inside, vars)).trim();
+				  //se envia el codigo retornado a recursion
+		          resultFinal = Result(returnedString,"");
 		          y=limite(linea,y);
 		          break;
+				//si se encuentra un set q
 		        case "setq":
 
 					v.funFound("setq");
 					acu="";
 
+					//se encunetra el nombre de la variable y el valor  a almacenar
 					String instruccion = adentro(linea.substring(y+2));
 
 					String[] splited = instruccion.split(" ");
@@ -56,13 +93,16 @@ public class interpreterLisp{
 
 					String rest = (instruccion.substring(len)).trim();
 
+					//se manda el valor a almacenar a recursion, en caso de que sea una suma o alguna otra cosa
 					resultFinal = Result(rest,"");
 
+					//se coloca la variable y el resultado en un hashmap
 					vars.put(var, resultFinal);
 
 					y=limite(linea,y);
 					break;
 
+				//si se encunetra una list
 				case "list":
 
 					v.funFound("list");
@@ -73,6 +113,7 @@ public class interpreterLisp{
 					String[] splited2 = instruccion2.split(" ");
 
 					String var2 = splited2[0];
+					//si hay un quote, entonces no se mandan los valores a recursion
 					if(splited2[1].equals("'") || splited2[1].equals("quote")){
 						String var3 = var2  + " " + splited2[1];
 
@@ -81,9 +122,10 @@ public class interpreterLisp{
 						String instru = adentro((instruccion2.substring(len2)).trim());
 
 						String[] rest2 = (instru.split(" "));
-						
-						vars2.put(var2, rest2);
 
+						//se almacena los variables con las listas en un hashmap
+						vars2.put(var2, rest2);
+					//si no hay quote, todo se manda a recursion
 					}else{
 						int len2 = var2.length();
 
@@ -102,30 +144,36 @@ public class interpreterLisp{
 								
 						}
 
+						//se almacena las variables con la lista en un hashmpa
 						vars2.put(var2, rest3);
 					}
 
 					y=limite(linea,y);
 					break;
 
+				//si se encunetra una funcion
 		        case "defun":
 		          v.funFound("defun");
 		          acu="";
+				  //se manda la funcion a recursion para que se almacene
 		          resultFinal = Result(adentro(linea.substring(y+2)),"defun");
 		          y=limite(linea,y);
 		          break;
+				//si se encuentra write
 		        case "write":
 		          v.funFound("write");
 		          acu="";
 				  inside = (adentro(linea.substring(y+2))).trim();
 				  String[] a = inside.split(" ");
 
+					// si se encunetra quote, no se evalua las possibles variables y expresiones matematicas
 				  if(a[0].equals("'") || a[0].equals("quote")){
 					  String finalText = "";
 					  for(int k = 2; k<a.length-1;k++){
 						  finalText = finalText +" "+a[k];
 					  }
 					  System.out.println("Resultado: " + finalText+"\n");
+					//sino, se manda todo a recursion para que evalue
 				  }else{
 					boolean b = true;
 					for(int i = 0; i < a.length ; i++){
@@ -152,9 +200,10 @@ public class interpreterLisp{
 						  }
 					  }
 					}
-					
+
 					String finalString2 = (String.join(" ", a)).trim();
   
+					//se imprime todo
 					resultFinal = Result(finalString2,"");
 					System.out.println("Resultado: " + resultFinal+"\n");
 				  }
@@ -249,6 +298,7 @@ public class interpreterLisp{
 				  }
 				}
 		      
+			//en caso de que sea una operacion matematica
 		    }else{
 				Calculator calc = new Calculator();
 				String newCalc = "";
@@ -275,6 +325,7 @@ public class interpreterLisp{
 						newCalc = newCalc + linea.charAt(i);
 					}else{
 
+						//si el coso es un numero
 						try {
 							String tempCalc2 = "" + linea.charAt(i);
 							Double.parseDouble(tempCalc2);
@@ -294,29 +345,35 @@ public class interpreterLisp{
 							i = i + tempCont-1;
 							newCalc = newCalc + tempCalc4;
 							
-
+						//si es una palabra, se manda a recursion
 						} catch (NumberFormatException e) {
-							int parentesis=1; //se emplea conteo de parentesis para esto
+							int parentesis=0; //se emplea conteo de parentesis para esto
 							String acuparentesis="";
-							String tempCalc = linea.substring(i);
-
-							for (int j=0;j<tempCalc.length();j++) {
+							String tempCalc = linea.substring(i,linea.length()-1);
+							String tempCalc2 = tempCalc.trim();
+							
+							boolean verifier = true;
+							for (int j=0;j<tempCalc2.length();j++) {
 								if(tempCalc.charAt(j)=='(' ) {
 										
 										parentesis++;
 								}else if(tempCalc.charAt(j)==')') {
 										
-										parentesis--;			
+										parentesis--;	
+										verifier = false;		
 								}
-								if (parentesis>=0) {
+								if (parentesis>=0 && verifier) {
 										acuparentesis=acuparentesis+tempCalc.charAt(j);
 								}else {
+									acuparentesis=acuparentesis+tempCalc.charAt(j);
 									j=tempCalc.length();
 								}
 							}
 
-							i = i + acuparentesis.length()-3;
+							acuparentesis = acuparentesis.trim();
+							i = i + acuparentesis.length()-1;
 
+							String acuparentesis2 = adentro(acuparentesis);
 							String temp1000 = Result(acuparentesis, "");
 							newCalc = newCalc + temp1000;
 						}
@@ -324,6 +381,7 @@ public class interpreterLisp{
 					}
 					
 				}
+				//se manda la expresion a la calculadora
 				resultFinal = calc.calc(newCalc.split(" "));
 				y=linea.length();
 
@@ -342,6 +400,12 @@ public class interpreterLisp{
 		
 	}
 
+  
+  /** 
+   * Metodo que detecta codigo dentro de otros. Permite la recursividad
+   * @param nuevaLinea
+   * @return String
+   */
   private String adentro (String nuevaLinea) {//determina que hay dentro de cada instrucción
   //recibe la posición en la que se quedó el for de arriba sí no recorre toda la linea
 	int parentesis=0; //se emplea conteo de parentesis para esto
@@ -362,6 +426,13 @@ public class interpreterLisp{
     return acuparentesis;
 	}
   
+  
+  /** 
+   * Metodo que indica donde termina secciones de codigo
+   * @param n
+   * @param a
+   * @return int
+   */
   private int limite(String n, int a)
   {//recibe la linea que se quiere analizar
 	  int par = 1;
@@ -382,6 +453,12 @@ public class interpreterLisp{
   }
    
 
+  
+  /** 
+   * Metodo que organiza funciones y mete cada componente a un ArrayList.
+   * @param nuevafun
+   * @return ArrayList<String>
+   */
   private ArrayList<String> OrganizaDefun(String nuevafun){
 	  //mete todos los elementos de una funcion adentro de un array
 	  //recibe el string que es detectado como una nueva funci�n
@@ -406,9 +483,3 @@ public class interpreterLisp{
   }
 
 }
-
-//C:\Users\anard\Downloads\Proyecto-Lisp-main\Proyecto-Lisp-main\factorial.txt
-
-
-
-

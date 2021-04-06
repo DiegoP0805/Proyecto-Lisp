@@ -1,0 +1,7 @@
+(defun test(n)
+( + 1 n )
+)
+(defun testdos(n)
+( + 2 n )
+)
+(write ( testdos ( test ( 5 ) ) ))

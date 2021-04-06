@@ -77,19 +77,18 @@ public class Cond
             sino = s.substring(pos, s.length());
             sino = cleanup(sino);
             String[] condicionArray = detectSpaces(condicional);
-            acu += ("\ncondicional : "+ condicional + "\n");
             if(Atom(condicionArray[1]) && Atom(condicionArray[2]))//chequeo de los valores del condicional si son numéricos 
             {
                 if(compare(condicionArray[0], condicionArray[1], condicionArray[2]))
                 {
                     //System.out.println("\nif: " + si);
                     //findcondition(si, hm);
-                    acu += (si + " \n " +findcondition(si, hm));
+                    acu = (findcondition(si, hm));
                 }
                 else
                 {
                     //System.out.println("\nelse: "+ sino+"\n");
-                    acu += (sino + " \n " + findcondition(sino, hm));
+                    acu = ( findcondition(sino, hm));
                 }
             }
             else
@@ -100,13 +99,13 @@ public class Cond
                     {
                         /*System.out.println("\nif: " + si);
                         findcondition(si, hm);*/
-                        acu += (si + " \n " +findcondition(si, hm));
+                        acu = (findcondition(si, hm));
                     }
                     else
                     {
                         /*System.out.println("\nelse: "+ sino+"\n");
                         findcondition(sino, hm);*/
-                        acu += (sino + " \n " + findcondition(si, hm));
+                        acu = ( findcondition(si, hm));
                     }
 
                 }
@@ -116,13 +115,13 @@ public class Cond
                     {
                         /*System.out.println("\nif: " + si);
                         findcondition(si, hm);*/
-                        acu += (si + " \n " +findcondition(si, hm));
+                        acu = (findcondition(si, hm));
                     }
                     else
                     {
                         /*System.out.println("\nelse: "+ sino+"\n");
                         findcondition(sino, hm);*/
-                        acu += (sino + " \n " + findcondition(si, hm));
+                        acu = ( findcondition(si, hm));
                     }
                 }
                 else
@@ -133,13 +132,13 @@ public class Cond
                         {
                             /*System.out.println("\nif: " + si);
                             findcondition(si, hm);*/
-                            acu += (si + " \n " +findcondition(si, hm));
+                            acu = (findcondition(si, hm));
                         }
                         else
                         {
                             /*System.out.println("\nelse: "+ sino+"\n");
                             findcondition(sino, hm);*/
-                            acu += (sino + " \n " + findcondition(sino, hm));
+                            acu = ( findcondition(sino, hm));
                         }
                     }
                     else if(Atom(condicionArray[1]) && !Atom(condicionArray[2]) && (hm.containsKey(condicionArray[2])))
@@ -148,13 +147,13 @@ public class Cond
                         {
                             /*System.out.println("\nif: " + si);
                             findcondition(si, hm);*/
-                            acu += (si + " \n " +findcondition(si, hm));
+                            acu = (findcondition(si, hm));
                         }
                         else
                         {
                             /*System.out.println("\nelse: "+ sino+"\n");
                             findcondition(sino, hm);*/
-                            acu += (sino + " \n " + findcondition(sino, hm));
+                            acu = ( findcondition(sino, hm));
                         }
                     }
                 }
@@ -162,9 +161,9 @@ public class Cond
         }
         else
         {
-            acu += "";
+            return s;
         }
-        return acu + " \n ";
+        return acu;
     }
 
 

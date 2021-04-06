@@ -1,6 +1,10 @@
-/**
- * @author: Diego Perdomo
- */
+/*******************************************************
+* Universidad del Valle de Guatemala
+* Algoritmos y Estructuras de Datos
+* Profesor: Moises Gonzales
+*@author Diego Perdomo
+*
+********************************************************/
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -66,7 +70,7 @@ public class OpenLisp
                 }
             }
         }
-
+        //retorna true or false dependiendo si todos los parentesis tienen pareja.
         if(acu == 0)
         {
             return true;

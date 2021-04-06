@@ -1,0 +1,8 @@
+(setq b ( 1 ))
+(list a ( b hola ))
+(list c quote ( b hola ))
+(write ( b ))
+(write ( a ))
+(write ' ( a ))
+(write ( c ))
+(write ( hola ))

@@ -1,9 +1,8 @@
-
 /*******************************************************
 * Universidad del Valle de Guatemala
 * Algoritmos y Estructuras de Datos
 * Profesor: Moises Gonzales
-* Autor: Stefano Aragoni
+*@author Stefano Aragoni
 *
 ********************************************************/
 

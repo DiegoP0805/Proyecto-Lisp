@@ -1,3 +1,11 @@
+/*******************************************************
+* Universidad del Valle de Guatemala
+* Algoritmos y Estructuras de Datos
+* Profesor: Moises Gonzales
+*@author Stefano Aragoni
+*
+********************************************************/
+
 import java.util.*;
 
 public class Calculator{
@@ -22,7 +30,7 @@ public class Calculator{
               acu--;
           }
       }
-
+      //retorna verdadero o falso dependiendo si todos los parentesis tienen pareja
       if(acu == 0)
       {
           return true;
@@ -51,7 +59,7 @@ public class Calculator{
         stackOne.push(Double.parseDouble(prefix[1]));
     }else{
         signo = String.valueOf(prefix[1]);
-        for (int i = 2; i < prefix.length; i++){ //2 representa el primer coso después del primer signo matemático
+        for (int i = 2; i < prefix.length; i++){ //2 representa el primer objeto después del primer signo matemático
             if(prefix[i].equals("(")){
 
               int tempAmount = prefix.length - (i);
@@ -78,6 +86,8 @@ public class Calculator{
           }
     }
     
+    //dependiendo del signo, manda a llamar a otros metodos para hacer el calculo
+
     if(signo.equals("+")){
         stackOne.push(sumar(stackOne));
     }
@@ -91,7 +101,12 @@ public class Calculator{
         stackOne.push(dividir(stackOne));
     }
     
-    return Double.toString(stackOne.pop());
+    String finalNumber = Double.toString(stackOne.pop());
+
+    if(finalNumber.equals("0.0")){
+      finalNumber = "0";
+    }
+    return finalNumber;
   }
 
   /** 

@@ -1,3 +1,10 @@
+/*******************************************************
+* Universidad del Valle de Guatemala
+* Algoritmos y Estructuras de Datos
+* Profesor: Moises Gonzales
+*@author Stefano Aragoni y Ana Ramirez
+*
+********************************************************/
 
 import java.util.Scanner; 
 import java.util.*;
@@ -10,6 +17,11 @@ public class View{
     
   }
 
+  
+  /** 
+   * Imprime el texto de bienvenida del usuario. le pregunta qué quiere hacer.
+   * @return String
+   */
   public String Welcome(){
     boolean testBool = true;
     String location = null;
@@ -34,14 +46,15 @@ public class View{
   
   }
 
+  //imprime mensaje de despedida
   public void Bye(){
     System.out.println("\nHasta luego..."); 
   }
-
-  public void Result(int result){
-
-  }
-
+  
+  /** 
+   * Imprime el codigo lisp del .txt
+   * @param codigo
+   */
   public void Operation(String[] codigo){
     System.out.println("\n--PROGRAMA LISP--\n"); 
     for(int i = 0; i < codigo.length; i++){
@@ -50,21 +63,42 @@ public class View{
     System.out.print("\n\n");
   }
 
+  
+  /** 
+   * Imrpime funciones encontradas
+   * @param funcion
+   */
   public void funFound(String funcion) {
 		System.out.println("Se ha encontrado la funcion: "+funcion);
 	}
 	
-	public void insideFun(String actions) {
+	
+  /** 
+   * Imprime la parte de codigo que se encuntra dentro de otra. Demuestra la recursividad
+   * @param actions
+   */
+  public void insideFun(String actions) {
 		System.out.println("Dicha funcion contiene: "+actions);
 	}
 	
-	public void ingreso(String input) {
+	
+  /** 
+   * Imprime el codigo original
+   * @param input
+   */
+  public void ingreso(String input) {
 		System.out.println("Se ha ingresado "+input);
 	}
-	public void proceso(String processed) {
+	
+  /** 
+   * Imprime el codigo original en minusculas
+   * @param processed
+   */
+  public void proceso(String processed) {
 		System.out.println("Se ha modificado a "+processed);
 	}
 
+  //Imprime si hubo algun error
   public void Error(){
     System.out.println("\nPrograma Lisp no valido. Revise su programa o intente con uno nuevo."); 
   }
